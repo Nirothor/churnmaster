@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Churn Prediction</title>
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+        #results {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 5px solid #007bff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            display: none;
+        }
+        #loadingSpinner {
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Churn Prediction Form</h1>
+        <form id="predictionForm">
+            <!-- Form input fields based on model features -->
+            <div class="form-group">
+                <label for="customerAge">Customer Age</label>
+                <input type="number" class="form-control" id="customerAge" name="CustomerAge" required>
+            </div>
+            <div class="form-group">
+                <label for="customerIncome">Customer Income</label>
+                <input type="number" class="form-control" id="customerIncome" name="CustomerIncome" required>
+            </div>
+            <div class="form-group">
+                <label for="customerEducationLevel">Customer Education Level</label>
+                <select class="form-control" id="customerEducationLevel" name="CustomerEducationLevel">
+                    <option value="Bachelor">Bachelor</option>
+                    <option value="Master">Master</option>
+                    <option value="High School">High School</option>
+                    <option value="PhD">PhD</option>
+                    <!-- Add other options if needed -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="supportInteraction">Support Interaction</label>
+                <input type="number" class="form-control" id="supportInteraction" name="SupportInteraction" required>
+            </div>
+            <div class="form-group">
+                <label for="satisfactionScore">Satisfaction Score</label>
+                <input type="number" class="form-control" id="satisfactionScore" name="SatisfactionScore" required>
+            </div>
+            <div class="form-group">
+                <label for="usageFrequency">Usage Frequency</label>
+                <input type="number" class="form-control" id="usageFrequency" name="UsageFrequency" required>
+            </div>
+            <div class="form-group">
+                <label for="featureUsageScore">Feature Usage Score</label>
+                <input type="number" class="form-control" id="featureUsageScore" name="FeatureUsageScore" required>
+            </div>
+            <div class="form-group">
+                <label for="accountLifetime">Account Lifetime</label>
+                <input type="number" class="form-control" id="accountLifetime" name="AccountLifetime" required>
+            </div>
+            <div class="form-group">
+                <label for="contractRenewal">Contract Renewal</label>
+                <select class="form-control" id="contractRenewal" name="ContractRenewal">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="monthlyCharges">Monthly Charges</label>
+                <input type="number" class="form-control" id="monthlyCharges" name="MonthlyCharges" required>
+            </div>
+            <div class="form-group">
+                <label for="totalCharges">Total Charges</label>
+                <input type="number" class="form-control" id="totalCharges" name="TotalCharges" step="0.01" required>
+            </div>
+            <!-- Submit button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-4">Predict Churn</button>
+        </div>
+        </form>
+
+    <div id="loadingSpinner" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Results display area -->
+    <div id="results">
+        <h2>Prediction Results:</h2>
+        <p id="churnResult">Churn: <span></span></p>
+        <p id="probabilityResult">Probability: <span></span></p>
+    </div>
+</div>
+
+<!-- Proper order of scripts for jQuery and Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+// JavaScript for AJAX form submission
+$('#predictionForm').on('submit', function(e) {
+    e.preventDefault();
+
+    // Show loading spinner
+    $('#loadingSpinner').show();
+    // Disable submit button
+    $('button[type="submit"]').prop('disabled', true);
+
+    // Gather form data
+    var formData = {};
+    $(this).find(':input').each(function() {
+        if (this.name && this.value) {
+            formData[this.name] = $(this).val();
+        }
+    });
+
+    // AJAX request to Flask '/predict' endpoint
+    $.ajax({
+        type: 'POST',
+        url: '/predict',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            $('#churnResult span').text(response.churn);
+            $('#probabilityResult span').text(parseFloat(response.probability).toFixed(4));
+            $('#results').fadeIn();
+            $('#loadingSpinner').hide();
+            $('button[type="submit"]').prop('disabled', false);
+        },
+        error: function(error) {
+            console.error('Error:', error);
+            var errorMessage = error.responseJSON && error.responseJSON.error ? error.responseJSON.error : 'Unknown error';
+            alert('An error occurred: ' + errorMessage);
+            $('#loadingSpinner').hide();
+            $('button[type="submit"]').prop('disabled', false);
+        }
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Churn Prediction</title>
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f7f7f7;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        h1 {
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+        }
+        #results {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 5px solid #007bff;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center">Churn Prediction Form</h1>
+    <form id="predictionForm">
+        <!-- Form input fields based on model features -->
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="customerAge">Customer Age</label>
+                <input type="number" class="form-control" id="customerAge" name="CustomerAge" required>
+            </div>
+            <!-- Repeat for each feature, adjusting the type and name as needed -->
+            <!-- Add dropdowns for categorical features like CustomerEducationLevel and ContractRenewal -->
+            <!-- ... -->
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Predict Churn</button>
+        </div>
+    </form>
+
+    <div id="results">
+        <h2>Prediction Results:</h2>
+        <p id="churnResult">Churn: <span></span></p>
+        <p id="probabilityResult">Probability: <span></span></p>
+    </div>
+</div>
+
+<!-- Scripts should be loaded at the end of the body for performance reasons -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+$('#predictionForm').on('submit', function(e) {
+    e.preventDefault();
+    var formData = {};
+    $(this).find(':input').each(function() {
+        if (this.name) {
+            formData[this.name] = $(this).val();
+        }
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: '/predict',
+        contentType: 'application/json;charset=UTF-8',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            $('#churnResult span').text(response.churn);
+            $('#probabilityResult span').text(parseFloat(response.probability).toFixed(4));
+            $('#results').fadeIn();
+        },
+        error: function(error) {
+            console.log(error);
+            alert('An error occurred: ' + error.responseJSON.error);
+        }
+    });
+});
+</script>
+
+</body>
+</html>
