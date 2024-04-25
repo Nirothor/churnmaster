@@ -6,7 +6,7 @@ Leveraging technological insights to drive business growth and customer satisfac
 ### Project Highlights
 - **Churn Prediction Model**: Spearheaded the development of a churn prediction model, overseeing all phases from data preprocessing to model training. Utilized advanced machine learning techniques to identify key factors influencing customer churn.
 
-### 🛠Technical Challenges
+### Technical Challenges
 - **Git Large File Storage (LFS)**: Encountered and resolved a significant challenge with Git LFS by successfully removing a large file that exceeded GitHub's size limit. This involved deep diving into Git's history and employing strategies to purge the file, ensuring a clean and efficient repository.
 
 ### Continuous Learning
@@ -25,3 +25,5 @@ Leveraging technological insights to drive business growth and customer satisfac
 Python       7 hrs 30 mins   ██████████████████░░░░░░░   72.00 %
 SQL          1 hr 30 mins    ███░░░░░░░░░░░░░░░░░░░░░░   14.50 %
 Other        1 hr            ███░░░░░░░░░░░░░░░░░░░░░░   9.50 %
+
+**Feel free to reach out if you have any questions or need assistance with your projects!**
