@@ -1,4 +1,4 @@
-## Hi there, I'm [Your Name]! 
+## Hi there, I'm Steve!
 
 ### About Me
 I'm a passionate Data Scientist specializing in predictive modeling and machine learning. I thrive on solving complex problems with data-driven solutions and am currently focused on improving customer retention through churn prediction models.
