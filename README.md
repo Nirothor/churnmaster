@@ -1,7 +1,7 @@
 ## Hi there, I'm Steve!
 
 ### About Me
-I'm a passionate Data Scientist specializing in predictive modeling and machine learning. I thrive on solving complex problems with data-driven solutions and am currently focused on improving customer retention through churn prediction models.
+Leveraging technological insights to drive business growth and customer satisfaction is the central theme of my career story. After several well-earned promotions, I transitioned from an intern full-stack developer in 2017 to a VP of Customer Success in 2021. The narrative arc of my career illustrates a rapid ascent through the ranks, driven by technical mastery, strategic thinking, and a deep commitment to leadership and customer success.
 
 ### Project Highlights
 - **Churn Prediction Model**: Spearheaded the development of a churn prediction model, overseeing all phases from data preprocessing to model training. Utilized advanced machine learning techniques to identify key factors influencing customer churn.
